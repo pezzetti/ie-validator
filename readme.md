@@ -1,4 +1,6 @@
 # Inscrição Estadual
+https://travis-ci.org/pezzetti/IEValidator.svg?branch=master
+
 PHP library for validating and printing IE for brazilian states 
 
 ## Requirements
