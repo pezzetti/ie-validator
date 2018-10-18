@@ -8,6 +8,12 @@ use Pezzetti\InscricaoEstadual\Util\Mask;
 
 class MaskTest extends TestCase
 {
+
+    public function testInvalidUF()
+    {
+        self::assertFalse(Mask::getIEForUF('as','1111'));
+    }
+
     public function testMaskAcre() {
         self::assertEquals('01.116.205/876-03', Mask::getIEForUF(States::AC, '0111620587603'));
         self::assertEquals('01116205876031', Mask::getIEForUF(States::AC, '01116205876031'));
