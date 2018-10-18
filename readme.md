@@ -13,7 +13,7 @@ PHP library for validating and printing Inscrição Estadual (IE) for brazilian 
 With [Composer](http://getcomposer.org):
 
 ```ssh
-composer require pezzetti/inscricaoestadual
+composer require pezzetti/ie-validator
 ```
 ## Usage
 ```php
