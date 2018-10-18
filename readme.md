@@ -1,5 +1,6 @@
 # Inscrição Estadual
 https://travis-ci.org/pezzetti/IEValidator.svg?branch=master
+[![codecov](https://codecov.io/gh/pezzetti/IEValidator/branch/master/graph/badge.svg)](https://codecov.io/gh/pezzetti/IEValidator)
 
 PHP library for validating and printing IE for brazilian states 
 
