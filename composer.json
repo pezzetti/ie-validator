@@ -3,7 +3,6 @@
   "homepage": "https://github.com/pezzetti/ie-validator",
   "license": "MIT",
   "type": "library",
-  "version": "1.0",
   "description": "PHP library for validating and printing Inscrição Estadual IE for brazilian states",
   "require": {
     "php": ">=5.6"
