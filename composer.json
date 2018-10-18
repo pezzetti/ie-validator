@@ -1,6 +1,6 @@
 {
-  "name": "pezzetti/IEValidator",
-  "homepage": "https://github.com/pezzetti/IEValidator",
+  "name": "pezzetti/ie-validator",
+  "homepage": "https://github.com/pezzetti/ie-validator",
   "license": "MIT",
   "type": "library",
   "description": "PHP library for validating and printing IE for brazilian states",
