@@ -10,7 +10,7 @@ PHP library for validating and printing IE for brazilian states
 
 ## Instalation
 
-Usando [Composer](http://getcomposer.org):
+With [Composer](http://getcomposer.org):
 
 ```ssh
 composer require pezzetti/inscricaoestadual
