@@ -3,7 +3,7 @@
   "homepage": "https://github.com/pezzetti/IEValidator",
   "license": "MIT",
   "type": "library",
-  "description": "Biblioteca PHP para validar e imprimir  inscrições estaduais, seguindo as regras da SEFAZ. http://www.sintegra.gov.br/insc_est.html",
+  "description": "PHP library for validating and printing IE for brazilian states",
   "require": {
     "php": ">=5.4.16"
   },

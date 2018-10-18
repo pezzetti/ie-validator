@@ -1,5 +1,5 @@
 # Inscrição Estadual
-
+PHP library for validating and printing IE for brazilian states 
 
 ## Requirements
 
