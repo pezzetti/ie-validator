@@ -32,93 +32,93 @@ use Pezzetti\InscricaoEstadual\Util\Validator\Tocantins;
 class Validator
 {
 
-    public static function check($estado, $inscricao_estadual)
+    public static function check($estado, $inscricaoEstadual)
     {
         $estado = strtoupper($estado);
 
-        $inscricao_estadual = preg_replace( '/[^0-9]/', '', $inscricao_estadual);
+        $inscricaoEstadual = preg_replace( '/[^0-9]/', '', $inscricaoEstadual);
         
         switch ($estado) {
             case States::AC:
-                $valid = Acre::check($inscricao_estadual);
+                $valid = Acre::check($inscricaoEstadual);
                 break;
             case States::AL:
-                $valid = Alagoas::check($inscricao_estadual);
+                $valid = Alagoas::check($inscricaoEstadual);
                 break;
             case States::AP:
-                $valid = Amapa::check($inscricao_estadual);
+                $valid = Amapa::check($inscricaoEstadual);
                 break;
             case States::AM:
-                $valid = Amazonas::check($inscricao_estadual);
+                $valid = Amazonas::check($inscricaoEstadual);
                 break;
             case States::BA:
-                $valid = Bahia::check($inscricao_estadual);
+                $valid = Bahia::check($inscricaoEstadual);
                 break;
             case States::CE:
-                $valid = Ceara::check($inscricao_estadual);
+                $valid = Ceara::check($inscricaoEstadual);
                 break;
             case States::DF:
-                $valid = DistritoFederal::check($inscricao_estadual);
+                $valid = DistritoFederal::check($inscricaoEstadual);
                 break;
             case States::ES:
-                $valid = EspiritoSanto::check($inscricao_estadual);
+                $valid = EspiritoSanto::check($inscricaoEstadual);
                 break;
             case States::GO:
-                $valid = Goias::check($inscricao_estadual);
+                $valid = Goias::check($inscricaoEstadual);
                 break;
             case States::MA:
-                $valid = Maranhao::check($inscricao_estadual);
+                $valid = Maranhao::check($inscricaoEstadual);
                 break;
             case States::MT:
-                $valid = MatoGrosso::check($inscricao_estadual);
+                $valid = MatoGrosso::check($inscricaoEstadual);
                 break;
             case States::MS:
-                $valid = MatoGrossoDoSul::check($inscricao_estadual);
+                $valid = MatoGrossoDoSul::check($inscricaoEstadual);
                 break;
             case States::MG:
-                $valid = MinasGerais::check($inscricao_estadual);
+                $valid = MinasGerais::check($inscricaoEstadual);
                 break;
             case States::PA:
-                $valid = Para::check($inscricao_estadual);
+                $valid = Para::check($inscricaoEstadual);
                 break;
             case States::PB:
-                $valid = Paraiba::check($inscricao_estadual);
+                $valid = Paraiba::check($inscricaoEstadual);
                 break;
             case States::PR:
-                $valid = Parana::check($inscricao_estadual);
+                $valid = Parana::check($inscricaoEstadual);
                 break;
             case States::PE:
-                $valid = Pernambuco::check($inscricao_estadual);
+                $valid = Pernambuco::check($inscricaoEstadual);
                 break;
             case States::PI:
-                $valid = Piaui::check($inscricao_estadual);
+                $valid = Piaui::check($inscricaoEstadual);
                 break;
             case States::RJ:
-                $valid = RioDeJaneiro::check($inscricao_estadual);
+                $valid = RioDeJaneiro::check($inscricaoEstadual);
                 break;
             case States::RN:
-                $valid = RioGrandeDoNorte::check($inscricao_estadual);
+                $valid = RioGrandeDoNorte::check($inscricaoEstadual);
                 break;
             case States::RS:
-                $valid = RioGrandeDoSul::check($inscricao_estadual);
+                $valid = RioGrandeDoSul::check($inscricaoEstadual);
                 break;
             case States::RO:
-                $valid = Rondonia::check($inscricao_estadual);
+                $valid = Rondonia::check($inscricaoEstadual);
                 break;
             case States::RR:
-                $valid = Roraima::check($inscricao_estadual);
+                $valid = Roraima::check($inscricaoEstadual);
                 break;
             case States::SC:
-                $valid = SantaCatarina::check($inscricao_estadual);
+                $valid = SantaCatarina::check($inscricaoEstadual);
                 break;
             case States::SP:
-                $valid = SaoPaulo::check($inscricao_estadual);
+                $valid = SaoPaulo::check($inscricaoEstadual);
                 break;
             case States::SE:
-                $valid = Sergipe::check($inscricao_estadual);
+                $valid = Sergipe::check($inscricaoEstadual);
                 break;
             case States::TO:
-                $valid = Tocantins::check($inscricao_estadual);
+                $valid = Tocantins::check($inscricaoEstadual);
                 break;
             default:
                 $valid = false;

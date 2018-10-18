@@ -15,3 +15,15 @@ Usando [Composer](http://getcomposer.org):
 ```ssh
 composer require pezzetti/inscricaoestadual
 ```
+## Usage
+```php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Pezzetti\InscricaoEstadual\Util\Validator;
+use Pezzetti\InscricaoEstadual\Util\Mask;
+use Pezzetti\InscricaoEstadual\Util\States;
+
+Validator::check(States::SP,'231.247.190.013');
+
+Mask::getIEForUF(States::SP,'241205090864');
+``` 
