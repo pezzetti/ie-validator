@@ -6,7 +6,7 @@
   "version": "2.0",
   "description": "PHP library for validating and printing Inscrição Estadual IE for brazilian states",
   "require": {
-    "php": ">=7.1"
+    "php": "^7.1"
   },
   "authors": [
     {
