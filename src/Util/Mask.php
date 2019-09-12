@@ -33,15 +33,10 @@ use Pezzetti\InscricaoEstadual\Util\Mask\Tocantins;
 class Mask
 {
 
-    public static function getIEForUF($uf, $inscricaoEstadual)
-    {
-        try {
-            $uf = strtoupper($uf);
-            $maskFactory = new MaskFactory();
-            $mask = $maskFactory->makeMaskFor($uf);            
-            return $mask->getMaskForIE($inscricaoEstadual);          
-        } catch (Exception $err) {
-            throw $err;
-        }  
+    public static function getIEForUF($uf, $inscricaoEstadual) : string {
+        $uf = strtoupper($uf);
+        $maskFactory = new MaskFactory();
+        $mask = $maskFactory->makeMaskFor($uf);            
+        return $mask->getMaskForIE($inscricaoEstadual);  
     }
 }

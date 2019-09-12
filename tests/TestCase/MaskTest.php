@@ -13,8 +13,8 @@ class MaskTest extends TestCase
      * @expectedExceptionMessage State not found
      */
     public function testInvalidUF()
-    {
-        self::assertFalse(Mask::getIEForUF('as','1111'));
+    {    
+        Mask::getIEForUF('as','1111');            
     }
 
     public function testMaskAcre() {

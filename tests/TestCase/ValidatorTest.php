@@ -11,9 +11,9 @@ class ValidatorTest extends TestCase
      * @expectedException Exception
      * @expectedExceptionMessage State not found
      */
-    public function testEstadoInexistente()
-    {
-        self::assertFalse(Validator::check("NY", "123456789"));
+    public function testCatchEstadoInexistente()
+    {               
+        Validator::check("NY", "123456789");
     }
 
     public function testAcre()
@@ -546,6 +546,7 @@ class ValidatorTest extends TestCase
         static::assertTrue(Validator::check(States::TO, "294467696"));
         // digito zero
         static::assertTrue(Validator::check(States::TO,"294150870"));
+        static::assertTrue(Validator::check(States::TO,"83039823800"));
     }
 
     public function testTocantinsFalse()
