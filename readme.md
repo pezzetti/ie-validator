@@ -7,7 +7,7 @@ PHP library for validating and printing Inscrição Estadual (IE) for brazilian 
 
 ## Requirements
 
-* PHP >=5.6
+* PHP >=7.0
 
 ## Instalation
 

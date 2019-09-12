@@ -2,54 +2,44 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class Pernambuco implements ValidatorInterface
+class Pernambuco extends StateValidator
 {
 
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) !== 9) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigitos($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    protected static function calculaDigitos($inscricaoEstadual)
-    {
+    protected function calcIE(string $ie) : bool {
 
-        $length = strlen($inscricaoEstadual);
-        $corpo = substr($inscricaoEstadual, 0, $length - 2);
+        $length = strlen($ie);
+        $body = substr($ie, 0, $length - 2);
 
-        $_1dig = self::calculaDigito($corpo);
-        $_2dig = self::calculaDigito($corpo . $_1dig);
+        $firstDigit = $this->calculaDigito($body);
+        $secondDigit = $this->calculaDigito($body . $firstDigit);
 
-        $pos2dig = strlen($inscricaoEstadual) - 1;
-        $pos1dig = strlen($inscricaoEstadual) - 2;
+        $pos2dig = strlen($ie) - 1;
+        $pos1dig = strlen($ie) - 2;
 
-        return $inscricaoEstadual[$pos1dig] == $_1dig && $inscricaoEstadual[$pos2dig] == $_2dig;
+        return $ie[$pos1dig] == $firstDigit && $ie[$pos2dig] == $secondDigit;
     }
 
 
-    private static function calculaDigito($corpo)
+    private function calculaDigito($body)
     {
-        $peso = strlen($corpo) + 1;
+        $weight = strlen($body) + 1;
 
-        $soma = 0;
-        foreach (str_split($corpo) as $digito) {
-            $soma += $digito * $peso;
-            $peso--;
+        $sum = 0;
+        foreach (str_split($body) as $digito) {
+            $sum += $digito * $weight;
+            $weight--;
         }
 
-        $modulo = 11;
-        $resto = $soma % $modulo;
+        $mod = 11;
+        $rest = $sum % $mod;
 
-        $dig = $modulo - $resto;
+        $dig = $mod - $rest;
         if ($dig >= 10) {
             $dig = 0;
         }

@@ -4,67 +4,58 @@ namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
 use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
 
-class Bahia implements ValidatorInterface
+class Bahia extends StateValidator
 {
 
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        $length = strlen($inscricaoEstadual);
-
-        if ($length !== 9 && $length !== 8) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigitos($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function checkLength(string $ie) : bool {	
+        $length = strlen($ie);	        
+		return $length == 9 || $length == 8;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    private static function calculaDigitos($inscricaoEstadual)
+    protected function calcIE(string $ie) : bool
     {
+        $lenght = strlen($ie);
+        $body = substr($ie, 0, $lenght - 2);
+        $mod = $this->getMod($ie);
+        $secondDigit = $this->calcDigit($body, $mod);
+        $firstDigit = $this->calcDigit($body . $secondDigit, $mod);
+        $pos2dig = strlen($ie) - 1;
+        $pos1dig = strlen($ie) - 2;
 
-        $length = strlen($inscricaoEstadual);
-        $corpo = substr($inscricaoEstadual, 0, $length - 2);
-        $modulo = self::getModulo($inscricaoEstadual);
-        $_2dig = self::calculaDigito($corpo, $modulo);
-        $_1dig = self::calculaDigito($corpo . $_2dig, $modulo);
-
-        $pos2dig = strlen($inscricaoEstadual) - 1;
-
-        $pos1dig = strlen($inscricaoEstadual) - 2;
-
-        return $inscricaoEstadual[$pos1dig] == $_1dig && $inscricaoEstadual[$pos2dig] == $_2dig;
+        return $ie[$pos1dig] == $firstDigit && $ie[$pos2dig] == $secondDigit;
     }
 
-    private static function getModulo($inscricaoEstadual)
+    private function getMod($ie)
     {
-        $comprimento = strlen($inscricaoEstadual);
-        $posicao = 0;
-        if ($comprimento == 9) {
-            $posicao = 1;
+        $length = strlen($ie);
+        $position = 0;
+        if ($length == 9) {
+            $position = 1;
         }
-        $char = substr($inscricaoEstadual, $posicao, 1);
+        $char = substr($ie, $position, 1);
         if (in_array($char, [0, 1, 2, 3, 4, 5, 8], false)) {
             return 10;
         }
         return 11;
     }
 
-    private static function calculaDigito($corpo, $modulo)
+    private function calcDigit($body, $mod)
     {
-        $peso = strlen($corpo) + 1;
+        $weight = strlen($body) + 1;
 
-        $soma = 0;
-        foreach (str_split($corpo) as $digito) {
-            $soma += $digito * $peso;
-            $peso--;
+        $sum = 0;
+        foreach (str_split($body) as $digit) {
+            $sum += $digit * $weight;
+            $weight--;
         }
 
-        $resto = $soma % $modulo;
+        $rest = $sum % $mod;
 
-        $dig = $modulo - $resto;
+        $dig = $mod - $rest;
         if ($dig >= 10) {
             $dig = 0;
         }

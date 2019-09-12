@@ -2,46 +2,39 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class RioGrandeDoSul implements ValidatorInterface
+class RioGrandeDoSul extends StateValidator
 {
-
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 10) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigito($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 10;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    protected static function calculaDigito($inscricaoEstadual)
-    {
-        $soma = 0;
-        $length = strlen($inscricaoEstadual);
-        $posicao = $length - 1;
-        $peso = 2;
-        $corpo = substr($inscricaoEstadual, 0, $posicao);
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
-            if ($peso == 1) {
-                $peso = 9;
+    protected function calcIE(string $ie) : bool {
+        $sum = 0;
+        $length = strlen($ie);
+        $position = $length - 1;
+        $weight = 2;
+        $body = substr($ie, 0, $position);
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
+            if ($weight == 1) {
+                $weight = 9;
             }
         }
 
-        $resto = $soma % 11;
+        $rest = $sum % 11;
 
-        $dig = 11 - $resto;
+        $dig = 11 - $rest;
 
         if ($dig >= 10) {
             $dig = 0;
         }
-        return $dig == $inscricaoEstadual[$posicao];
+        return $dig == $ie[$position];
     }
 }

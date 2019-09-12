@@ -8,7 +8,10 @@ use Pezzetti\InscricaoEstadual\Util\Mask;
 
 class MaskTest extends TestCase
 {
-
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage State not found
+     */
     public function testInvalidUF()
     {
         self::assertFalse(Mask::getIEForUF('as','1111'));

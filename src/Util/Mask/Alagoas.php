@@ -6,8 +6,7 @@ use Pezzetti\InscricaoEstadual\Util\MaskInterface;
 
 class Alagoas implements MaskInterface
 {
-    public static function getIE($inscricaoEstadual)
-    {
+    public function getMaskForIE(string $inscricaoEstadual) : string {
         return $inscricaoEstadual;
     }
 }

@@ -1,62 +1,75 @@
 <?php
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-
-class Tocantins extends Ceara
+class Tocantins extends StateValidator
 {
 
-    public static function check($inscricaoEstadual)
-    {
-        return static::checkOld($inscricaoEstadual) || static::checkNew($inscricaoEstadual);
+    protected function calcIE(string $ie) : bool {
+        return $this->checkOld($ie) || $this->checkNew($ie);
     }
 
-    protected static function checkOld($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 11) {
-            $valid = false;
-        }
-        if ($valid) {
-            $categoria = substr($inscricaoEstadual, 2, 2);
-            if (!in_array($categoria, ['01', '02', '03', '99'])) {
-                $valid = false;
-            }
-            $corpo = substr_replace($inscricaoEstadual, '', 2, 2);
-        }
-
-        if ($valid && !self::calculaDigito($corpo)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 11 || strlen($ie) == 9;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	  
+        return true;
     }
 
-      protected static function checkNew($inscricaoEstadual)
-    {
-        return strlen($inscricaoEstadual) == 9 && static::calculaDigitoNova($inscricaoEstadual);
+    private function checkOld($ie) {
+        $body = substr_replace($ie, '', 2, 2);              
+        return $this->oldStartsWith($ie) && $this->calcOld($body);      
+    }
+    
+    private function oldStartsWith($ie) {
+        $categ = substr($ie, 2, 2);              
+		return in_array($categ, ['01', '02', '03', '99']);
     }
 
-
-    protected static function calculaDigitoNova($inscricaoEstadual)
-    {
-        $peso = 9;
-        $soma = 0;
-        $length = strlen($inscricaoEstadual);
-        $posicao = $length - 1;
-        $corpo = substr($inscricaoEstadual, 0, $length - 1);
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
+    private function calcOld($ie) {
+        $sum = 0;
+        $length = strlen($ie);
+        $position = $length - 1;
+        $weight = $length;
+        $body = substr($ie, 0, $position);
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
         }
 
-        $resto = $soma % 11;
+        $rest = $sum % 11;
 
-        $dig = 11 - $resto;
-        if ($resto < 2) {
+        $dig = 11 - $rest;
+        if ($dig >= 10) {
+            $dig = 0;
+        }
+        return $dig == $ie[$position];
+    }
+
+    private function checkNew($ie) {
+        return $this->calcDigitNew($ie);
+    }
+
+    private function calcDigitNew($ie) {
+        $weight = 9;
+        $sum = 0;
+        $length = strlen($ie);
+        $position = $length - 1;
+        $body = substr($ie, 0, $length - 1);
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
+        }
+
+        $rest = $sum % 11;
+
+        $dig = 11 - $rest;
+        if ($rest < 2) {
             $dig = 0;
         }
 
-        return $dig == $inscricaoEstadual[$posicao];
+        return $dig == $ie[$position];
     }
 }

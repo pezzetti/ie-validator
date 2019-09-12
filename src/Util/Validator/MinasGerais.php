@@ -2,71 +2,66 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class MinasGerais implements ValidatorInterface
+class MinasGerais extends StateValidator
 {
 
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 13) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigito($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 13;
     }
 
-    protected static function calculaDigito($inscricaoEstadual)
-    {
-        $length = strlen($inscricaoEstadual);
-        $pos_1dig = $length - 2;
-        $pos_2dig = $length - 1;
+    protected function itStartsWith(string $ie) : bool {	                
+		return true;
+    }
+    
+    protected function calcIE(string $ie) : bool {
+        $length = strlen($ie);
+        $posFirstDigit = $length - 2;
+        $posSecondDigit = $length - 1;
 
-        $corpo = substr($inscricaoEstadual, 0, 11);
+        $body = substr($ie, 0, 11);
 
-        $_1dig = self::calculaPrimeiroDigito($corpo);
-        $_2dig = self::calculaSegundoDigito($corpo . $_1dig);
+        $firstDigit = $this->calcFirstDigit($body);
+        $secondDigit = $this->calcSecondDigit($body . $firstDigit);
 
-        return $_1dig == $inscricaoEstadual[$pos_1dig] && $_2dig == $inscricaoEstadual[$pos_2dig];
+        return $firstDigit == $ie[$posFirstDigit] && $secondDigit == $ie[$posSecondDigit];
     }
 
-    private static function calculaPrimeiroDigito($corpo)
-    {
-        $corpo = substr_replace($corpo, '0', 3, 0);
-        $concatenacao = "";
-        foreach (str_split($corpo) as $i => $item) {
-            $peso = ((($i + 3) % 2) == 0) ? 2 : 1;
-            $concatenacao .= ($item * $peso);
-        }
-        $soma = 0;
+    private function calcFirstDigit($body) {       
+        $body = substr_replace($body, '0', 3, 0);
+        $concatenate = "";
+        $count = 0;     
+        foreach (str_split($body) as $i => $item) {
+            $count++;
+            $weight = ((($i + 3) % 2) == 0) ? 2 : 1;           
+            $concatenate .= ($item * $weight);
+        }        
+        $sum = 0;
 
-        foreach (str_split($concatenacao) as $algarismo) {
-            $soma += $algarismo;
+        foreach (str_split($concatenate) as $algarismo) {
+            $sum += $algarismo;
         }
-        $strSoma = $soma . '';
-        $length = strlen($strSoma);
-        $last_char = substr($strSoma, $length - 1, 1);
+        $strSum = $sum . '';
+        $length = strlen($strSum);
+        $lastChar = substr($strSum, $length - 1, 1);
 
-        return ($last_char == 0) ? 0 : (10 - $last_char);
+        return ($lastChar == 0) ? 0 : (10 - $lastChar);
     }
 
-    private static function calculaSegundoDigito($corpo)
-    {
-        $peso = 3;
-        $soma = 0;
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
-            if ($peso == 1) {
-                $peso = 11;
+    private function calcSecondDigit($body) {
+        $weight = 3;
+        $sum = 0;
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
+            if ($weight == 1) {
+                $weight = 11;
             }
         }
 
-        $resto = $soma % 11;
-        $dig = 11 - $resto;
+        $rest = $sum % 11;
+        $dig = 11 - $rest;
 
         if ($dig >= 10) {
             $dig = 0;

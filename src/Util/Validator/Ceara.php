@@ -2,42 +2,33 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class Ceara implements ValidatorInterface
+class Ceara extends StateValidator
 {
-
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 9) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigito($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    protected static function calculaDigito($inscricaoEstadual)
+    protected function calcIE(string $ie) : bool
     {
-        $soma = 0;
-        $length = strlen($inscricaoEstadual);
-        $posicao = $length - 1;
-        $peso = $length;
-        $corpo = substr($inscricaoEstadual, 0, $posicao);
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
+        $sum = 0;
+        $length = strlen($ie);
+        $position = $length - 1;
+        $weight = $length;
+        $body = substr($ie, 0, $position);
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
         }
 
-        $resto = $soma % 11;
+        $rest = $sum % 11;
 
-        $dig = 11 - $resto;
+        $dig = 11 - $rest;
         if ($dig >= 10) {
             $dig = 0;
         }
-        return $dig == $inscricaoEstadual[$posicao];
+        return $dig == $ie[$position];
     }
 }

@@ -2,44 +2,39 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class MatoGrosso implements ValidatorInterface
+class MatoGrosso extends StateValidator
 {
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 11) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigito($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 11;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    protected static function calculaDigito($inscricaoEstadual)
+    protected function calcIE(string $ie) : bool
     {
-        $peso = 3;
-        $posicao = 10;
-        $soma = 0;
-        $length = strlen($inscricaoEstadual);
-        $corpo = substr($inscricaoEstadual, 0, $length - 1);
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
-            if ($peso == 1) {
-                $peso = 9;
+        $weight = 3;
+        $position = 10;
+        $sum = 0;
+        $length = strlen($ie);
+        $body = substr($ie, 0, $length - 1);
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
+            if ($weight == 1) {
+                $weight = 9;
             }
         }
 
-        $resto = $soma % 11;
+        $rest = $sum % 11;
 
-        $dig = 11 - $resto;
+        $dig = 11 - $rest;
         if ($dig >= 10) {
             $dig = 0;
         }
-        return $dig == $inscricaoEstadual[$posicao];
+        return $dig == $ie[$position];
     }
 }

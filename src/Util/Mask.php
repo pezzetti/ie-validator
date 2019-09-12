@@ -33,95 +33,15 @@ use Pezzetti\InscricaoEstadual\Util\Mask\Tocantins;
 class Mask
 {
 
-    public static function getIEForUF($estado, $inscricaoEstadual)
+    public static function getIEForUF($uf, $inscricaoEstadual)
     {
-        $estado = strtoupper($estado);
-        
-        switch ($estado) {
-            case States::AC:
-                $valid = Acre::getIE($inscricaoEstadual);
-                break;
-            case States::AL:
-                $valid = Alagoas::getIE($inscricaoEstadual);
-                break;
-            case States::AP:
-                $valid = Amapa::getIE($inscricaoEstadual);
-                break;
-            case States::AM:
-                $valid = Amazonas::getIE($inscricaoEstadual);
-                break;
-            case States::BA:
-                $valid = Bahia::getIE($inscricaoEstadual);
-                break;
-            case States::CE:
-                $valid = Ceara::getIE($inscricaoEstadual);
-                break;
-            case States::DF:
-                $valid = DistritoFederal::getIE($inscricaoEstadual);
-                break;
-            case States::ES:
-                $valid = EspiritoSanto::getIE($inscricaoEstadual);
-                break;
-            case States::GO:
-                $valid = Goias::getIE($inscricaoEstadual);
-                break;
-            case States::MA:
-                $valid = Maranhao::getIE($inscricaoEstadual);
-                break;
-            case States::MT:
-                $valid = MatoGrosso::getIE($inscricaoEstadual);
-                break;
-            case States::MS:
-                $valid = MatoGrossoDoSul::getIE($inscricaoEstadual);
-                break;
-            case States::MG:
-                $valid = MinasGerais::getIE($inscricaoEstadual);
-                break;
-            case States::PA:
-                $valid = Para::getIE($inscricaoEstadual);
-                break;
-            case States::PB:
-                $valid = Paraiba::getIE($inscricaoEstadual);
-                break;
-            case States::PR:
-                $valid = Parana::getIE($inscricaoEstadual);
-                break;
-            case States::PE:
-                $valid = Pernambuco::getIE($inscricaoEstadual);
-                break;
-            case States::PI:
-                $valid = Piaui::getIE($inscricaoEstadual);
-                break;
-            case States::RJ:
-                $valid = RioDeJaneiro::getIE($inscricaoEstadual);
-                break;
-            case States::RN:
-                $valid = RioGrandeDoNorte::getIE($inscricaoEstadual);
-                break;
-            case States::RS:
-                $valid = RioGrandeDoSul::getIE($inscricaoEstadual);
-                break;
-            case States::RO:
-                $valid = Rondonia::getIE($inscricaoEstadual);
-                break;
-            case States::RR:
-                $valid = Roraima::getIE($inscricaoEstadual);
-                break;
-            case States::SC:
-                $valid = SantaCatarina::getIE($inscricaoEstadual);
-                break;
-            case States::SP:
-                $valid = SaoPaulo::getIE($inscricaoEstadual);
-                break;
-            case States::SE:
-                $valid = Sergipe::getIE($inscricaoEstadual);
-                break;
-            case States::TO:
-                $valid = Tocantins::getIE($inscricaoEstadual);
-                break;
-            default:
-                $valid = false;
-        }
-        return $valid;
+        try {
+            $uf = strtoupper($uf);
+            $maskFactory = new MaskFactory();
+            $mask = $maskFactory->makeMaskFor($uf);            
+            return $mask->getMaskForIE($inscricaoEstadual);          
+        } catch (Exception $err) {
+            throw $err;
+        }  
     }
 }

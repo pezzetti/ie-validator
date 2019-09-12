@@ -2,46 +2,39 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class SaoPaulo implements ValidatorInterface
+class SaoPaulo extends StateValidator
 {
-
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 12) {
-            $valid = false;
-        }
-        if ($valid && !self::calculaDigito($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 12;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return true;
     }
 
-    protected static function calculaDigito($inscricaoEstadual)
-    {
-        $length = strlen($inscricaoEstadual);
-        $pos_1dig = $length - 4;
-        $pos_2dig = $length - 1;
+    protected function calcIE(string $ie) : bool {
+        $length = strlen($ie);
+        $positionFirstDigit = $length - 4;
+        $positionSecondDigit = $length - 1;
 
-        $_1dig = self::calculaPrimeiroDigito($inscricaoEstadual);
+        $firstDigit = $this->calcFirstDigit($ie);
 
-        $_2dig = self::calculaSegundoDigito($inscricaoEstadual);
+        $secondDigit = $this->calcSecondDigit($ie);
 
-        return $_1dig == $inscricaoEstadual[$pos_1dig] && $_2dig == $inscricaoEstadual[$pos_2dig];
+        return $firstDigit == $ie[$positionFirstDigit] && $secondDigit == $ie[$positionSecondDigit];
     }
 
-    private static function calculaPrimeiroDigito($inscricaoEstadual)
-    {
-        $corpo = substr($inscricaoEstadual, 0, 8);
-        $pesos = [1, 3, 4, 5, 6, 7, 8, 10];
-        $soma = 0;
-        foreach (str_split($corpo) as $i => $item) {
-            $soma += ($item * $pesos[$i]);
+    private function calcFirstDigit($ie) {
+        $body = substr($ie, 0, 8);
+        $weights = [1, 3, 4, 5, 6, 7, 8, 10];
+        $sum = 0;
+        foreach (str_split($body) as $i => $item) {
+            $sum += ($item * $weights[$i]);
         }
 
-        $dig = $soma % 11;
+        $dig = $sum % 11;
 
         $strDig = $dig . '';
         $length = strlen($strDig);
@@ -49,20 +42,19 @@ class SaoPaulo implements ValidatorInterface
         return substr($dig, $length - 1, 1);
     }
 
-    private static function calculaSegundoDigito($inscricaoEstadual)
-    {
-        $corpo = substr($inscricaoEstadual, 0, 11);
-        $peso = 3;
-        $soma = 0;
-        foreach (str_split($corpo) as $item) {
-            $soma += $item * $peso;
-            $peso--;
-            if ($peso == 1) {
-                $peso = 10;
+    private function calcSecondDigit($ie) {
+        $body = substr($ie, 0, 11);
+        $weight = 3;
+        $sum = 0;
+        foreach (str_split($body) as $item) {
+            $sum += $item * $weight;
+            $weight--;
+            if ($weight == 1) {
+                $weight = 10;
             }
         }
 
-        $dig = $soma % 11;
+        $dig = $sum % 11;
 
         $strDig = $dig . '';
         $length = strlen($strDig);

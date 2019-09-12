@@ -2,60 +2,51 @@
 
 namespace Pezzetti\InscricaoEstadual\Util\Validator;
 
-use Pezzetti\InscricaoEstadual\Util\ValidatorInterface;
+use Pezzetti\InscricaoEstadual\Util\Validator\StateValidator;
 
-class DistritoFederal implements ValidatorInterface
+class DistritoFederal extends StateValidator
 {
 
-    public static function check($inscricaoEstadual)
-    {
-        $valid = true;
-        if (strlen($inscricaoEstadual) != 13) {
-            $valid = false;
-        }
-        if ($valid && '07' != substr($inscricaoEstadual, 0, 2)) {
-            $valid = false;
-        }
-
-        if ($valid && !self::calculaDigitos($inscricaoEstadual)) {
-            $valid = false;
-        }
-        return $valid;
-
+    protected function checkLength(string $ie) : bool {		        
+		return strlen($ie) == 13;
+    }
+    
+	protected function itStartsWith(string $ie) : bool {	                
+		return substr($ie, 0, 2) == '07';
     }
 
-    private static function calculaDigitos($inscricaoEstadual)
+    protected function calcIE(string $ie) : bool
     {
 
-        $length = strlen($inscricaoEstadual);
-        $corpo = substr($inscricaoEstadual, 0, $length - 2);
+        $length = strlen($ie);
+        $body = substr($ie, 0, $length - 2);
 
-        $_1dig = self::calculaDigito($corpo);
-        $_2dig = self::calculaDigito($corpo . $_1dig);
+        $_1dig = $this->calcDigit($body);
+        $_2dig = $this->calcDigit($body . $_1dig);
 
-        $pos2dig = strlen($inscricaoEstadual) - 1;
-        $pos1dig = strlen($inscricaoEstadual) - 2;
+        $pos2dig = strlen($ie) - 1;
+        $pos1dig = strlen($ie) - 2;
 
-        return $inscricaoEstadual[$pos1dig] == $_1dig && $inscricaoEstadual[$pos2dig] == $_2dig;
+        return $ie[$pos1dig] == $_1dig && $ie[$pos2dig] == $_2dig;
     }
 
-    private static function calculaDigito($corpo)
+    private function calcDigit($body)
     {
-        $peso = strlen($corpo) - 7;
+        $weight = strlen($body) - 7;
 
-        $soma = 0;
-        foreach (str_split($corpo) as $digito) {
-            $soma += $digito * $peso;
-            $peso--;
-            if ($peso == 1) {
-                $peso = 9;
+        $sum = 0;
+        foreach (str_split($body) as $digit) {
+            $sum += $digit * $weight;
+            $weight--;
+            if ($weight == 1) {
+                $weight = 9;
             }
         }
 
-        $modulo = 11;
+        $mod = 11;
 
-        $resto = $soma % $modulo;
-        $dig = $modulo - $resto;
+        $rest = $sum % $mod;
+        $dig = $mod - $rest;
         if ($dig >= 10) {
             $dig = 0;
         }

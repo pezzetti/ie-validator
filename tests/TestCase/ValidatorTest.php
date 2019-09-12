@@ -7,6 +7,10 @@ use Pezzetti\InscricaoEstadual\Util\Validator;
 
 class ValidatorTest extends TestCase
 {
+     /**
+     * @expectedException Exception
+     * @expectedExceptionMessage State not found
+     */
     public function testEstadoInexistente()
     {
         self::assertFalse(Validator::check("NY", "123456789"));
