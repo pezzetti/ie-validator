@@ -7,14 +7,20 @@ PHP library for validating and printing Inscrição Estadual (IE) for brazilian 
 
 ## Requirements
 
-* PHP >= 7.1
+* v1.0.0 -> PHP >= 5.6
+* v2.0.0 -> PHP >= 7
 
 ## Instalation
 
 With [Composer](http://getcomposer.org):
 
+PHP 7
 ```ssh
 composer require pezzetti/ie-validator
+```
+PHP 5.6
+```ssh
+composer require pezzetti/ie-validator:1.0.0
 ```
 ## Usage
 ```php
