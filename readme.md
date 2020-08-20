@@ -1,4 +1,4 @@
-# Inscrição Estadual
+# Validador de Inscrição Estadual / IE validator
 [![Build Status](https://travis-ci.org/pezzetti/ie-validator.svg?branch=php7)](https://travis-ci.org/pezzetti/ie-validator)
 [![codecov](https://codecov.io/gh/pezzetti/ie-validator/branch/php7/graph/badge.svg)](https://codecov.io/gh/pezzetti/ie-validator)
 [![Total Downloads](https://img.shields.io/packagist/dt/pezzetti/ie-validator.svg?style=flat-square)](https://packagist.org/packages/pezzetti/ie-validator)
