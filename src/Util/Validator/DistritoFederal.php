@@ -12,7 +12,7 @@ class DistritoFederal extends StateValidator
     }
     
 	protected function itStartsWith(string $ie) : bool {	                
-		return substr($ie, 0, 2) == '07';
+		return substr($ie, 0, 2) == '07' || substr($ie, 0, 2) == '08';
     }
 
     protected function calcIE(string $ie) : bool

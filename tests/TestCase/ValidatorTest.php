@@ -178,6 +178,9 @@ class ValidatorTest extends TestCase
         // Regra convencional
         self::assertTrue(Validator::check(States::DF, "0754002000176"));
 
+        // Regra 08
+        self::assertTrue(Validator::check(States::DF, "0800207300101"));
+
         // Digito 10 que é convertido para 0
         self::assertTrue(Validator::check(States::DF, "0754002000508"));
     }
@@ -187,6 +190,8 @@ class ValidatorTest extends TestCase
         // Não começa com 07
         self::assertFalse(Validator::check(States::DF, "0108368143017"));
 
+        // Não começa com 08
+        self::assertFalse(Validator::check(States::DF, "0600207300101"));
 
         // Não tem 13 dígitos
         self::assertFalse(Validator::check(States::DF, "07008368143094"));
