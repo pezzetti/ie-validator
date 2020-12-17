@@ -174,6 +174,8 @@ class ValidatorTest extends TestCase
         // Regra convencional
         self::assertTrue(Validator::check(States::DF, "0754002000176"));
 
+        self::assertTrue(Validator::check(States::DF, "0800213900190"));
+
         // Digito 10 que é convertido para 0
         self::assertTrue(Validator::check(States::DF, "0754002000508"));
     }
@@ -188,6 +190,7 @@ class ValidatorTest extends TestCase
         self::assertFalse(Validator::check(States::DF, "07008368143094"));
         //Digito incorreto
         self::assertFalse(Validator::check(States::DF, "0754002000175"));
+        self::assertFalse(Validator::check(States::DF, "0800213900180"));
     }
 
     public function testEspiritoSanto()

@@ -13,7 +13,7 @@ class DistritoFederal implements ValidatorInterface
         if (strlen($inscricaoEstadual) != 13) {
             $valid = false;
         }
-        if ($valid && '07' != substr($inscricaoEstadual, 0, 2)) {
+        if ($valid && '07' != substr($inscricaoEstadual, 0, 2) && '08' != substr($inscricaoEstadual, 0, 2)) {
             $valid = false;
         }
 
